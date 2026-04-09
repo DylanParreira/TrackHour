@@ -19,7 +19,7 @@ If Not fso.FolderExists(scriptDir & "node_modules") Then
 End If
 
 ' Lancer le serveur en arrière-plan
-WshShell.Run """" & scriptDir & "LANCER_TRACKHOUR.bat""", 1, False
+WshShell.Run """" & scriptDir & "LANCER_TRACKHOUR.bat""", 0, False
 
 ' Attendre 3 secondes que le serveur démarre
 WScript.Sleep 3000
