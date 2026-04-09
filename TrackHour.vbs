@@ -5,9 +5,11 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 Dim scriptDir
 scriptDir = Left(WScript.ScriptFullName, InStrRev(WScript.ScriptFullName, "\"))
 
+' Se placer dans le bon dossier
+WshShell.CurrentDirectory = scriptDir
+
 ' Si node_modules absent, lancer npm install d'abord
 If Not fso.FolderExists(scriptDir & "node_modules") Then
-    WshShell.CurrentDirectory = scriptDir
     Dim install
     install = WshShell.Run("cmd /c npm install", 1, True)
     If install <> 0 Then
