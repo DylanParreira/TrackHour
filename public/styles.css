@@ -1,0 +1,267 @@
+/* TrackHour - Styles personnalisés v2.1 - Version Ultra Clean */
+
+/* ⚠️ FIX CRITIQUE : Hauteur de la carte Leaflet */
+#map {
+    height: 600px !important;
+    min-height: 600px !important;
+    width: 100% !important;
+}
+
+.task-item {
+    padding: 10px 12px;
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background-color 0.15s ease;
+    position: relative;
+    min-height: 44px;
+}
+
+.task-item:hover {
+    background-color: #fafbfc;
+}
+
+/* Layout: Nom de la tâche | Boutons | Durée */
+.task-layout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.task-description {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.task-duration {
+    width: 70px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Boutons d'action - apparaissent au survol */
+.task-item .task-hover-actions {
+    opacity: 0 !important;
+    max-width: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease 0.2s, max-width 0.3s ease 0.2s !important;
+    white-space: nowrap;
+}
+
+.task-item:hover .task-hover-actions {
+    opacity: 1 !important;
+    max-width: 400px !important;
+    pointer-events: auto !important;
+    transition: opacity 0.2s ease 0.1s, max-width 0.2s ease 0.1s !important;
+}
+
+.task-hover-actions .btn {
+    padding: 5px 9px;
+    font-size: 0.8rem;
+    border: 1px solid #e0e0e0;
+    background: white;
+    color: #666;
+    border-radius: 3px;
+    transition: all 0.1s ease;
+    flex-shrink: 0;
+}
+
+.task-hover-actions .btn:hover {
+    border-color: #007bff;
+    color: #007bff;
+    background: #f0f7ff;
+}
+
+.task-hover-actions .btn i {
+    font-size: 0.9rem;
+}
+
+/* Note de projet - Version discrète */
+.task-note {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 3px;
+    font-style: italic;
+    opacity: 0.8;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 600px;
+}
+
+.task-item:hover .task-note {
+    color: #666;
+    opacity: 1;
+}
+
+.task-note i {
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.task-note.expanded {
+    white-space: normal;
+    max-width: 100%;
+}
+
+.btn-note-expand {
+    background: none;
+    border: none;
+    padding: 0 4px;
+    margin-left: 6px;
+    color: #007bff;
+    font-size: 0.7rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    vertical-align: middle;
+}
+
+.btn-note-expand:hover {
+    opacity: 1;
+    color: #0056b3;
+}
+
+.task-item.pause {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+}
+
+.task-item.end-day {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.badge-reference {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
+}
+
+.badge-category {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.clickable-project {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.clickable-project:hover {
+    transform: scale(1.05);
+}
+
+.clickable-project-row {
+    cursor: pointer;
+}
+
+.clickable-project-row:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Styles pour le modal de modification */
+#editModal .modal-body {
+    padding: 1.5rem;
+}
+
+#editModal .form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Bouton modifier note dans modal edit */
+.edit-note-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #dee2e6;
+}
+
+.edit-note-section h6 {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Contrôles de zoom SharePoint */
+.sharepoint-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+}
+
+.sharepoint-zoom-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sharepoint-zoom-controls .btn {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #495057;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    line-height: 1.2;
+}
+
+.sharepoint-zoom-controls .btn:hover {
+    border-color: #007bff;
+    color: #007bff;
+    background: #f0f7ff;
+}
+
+.sharepoint-zoom-controls .zoom-level {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6c757d;
+    min-width: 45px;
+    text-align: center;
+}
+
+.sharepoint-iframe-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+}
+
+.sharepoint-iframe-wrapper iframe {
+    transform-origin: 0 0;
+    transition: transform 0.2s ease;
+}

@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion Projet</title>
+    <meta name="csrf-token" content="U4kzpcagkzMrYhm0MlQ4TVf1kqDJdidXf98TEtbZ">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Styles AG Grid -->
+    <link href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.0/dist/styles/ag-grid.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.0/dist/styles/ag-theme-alpine.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.0/dist/ag-grid-community.min.js"></script>
+
+
+
+    
+    <style>
+        /* Style additionnel pour les badges de référence */
+        .badge-reference {
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.5rem;
+            background-color: #f8f9fa;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">Gestion Projet</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarMain">
+<ul class="navbar-nav me-auto">
+            <li class="nav-item">
+            <a class="nav-link" href="https://projets.applitec-automatisme.com/dashboard">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="https://projets.applitec-automatisme.com/sav">
+                <i class="fas fa-headset"></i> SAV
+            </a>
+        </li>
+
+<li class="nav-item">
+    <a class="nav-link" href="https://projets.applitec-automatisme.com/issues">
+        <i class="fas fa-bug"></i> Suivi
+    </a>
+</li>
+
+        
+        <li class="nav-item">
+            <a class="nav-link" href="https://projets.applitec-automatisme.com/projects">
+                <i class="fas fa-project-diagram"></i> Projets
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="https://projets.applitec-automatisme.com/clients">
+                <i class="fas fa-building"></i> Clients
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="https://projets.applitec-automatisme.com/templates">
+                <i class="fas fa-copy"></i> Templates
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="https://applitec43.sharepoint.com/:x:/s/AppliTec/ESChsgWXzENAggMAwAlXsacBHHiVnI09fBAvRTLZ_dPSZg?e=m4sPXw" target="_blank">
+                <i class="fas fa-calendar"></i> Planning
+            </a>
+        </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://applitec43.sharepoint.com/:x:/r/sites/AppliTec/_layouts/15/Doc.aspx?sourcedoc=%7B64B804FD-5B19-4ED1-B80A-3129D380E7BC%7D&file=UTILISATION%20MATERIEL%20ET%20VEHICULES%202026.xlsx&action=default&mobileredirect=true" target="_blank">
+        <i class="fas fa-car"></i> Véhicules
+    </a>
+</li>
+</li>
+    </ul>
+            
+            <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> Dylan PARREIRA
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <form action="https://projets.applitec-automatisme.com/logout" method="POST">
+                                <input type="hidden" name="_token" value="U4kzpcagkzMrYhm0MlQ4TVf1kqDJdidXf98TEtbZ" autocomplete="off">                                <button class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+        <div class="container-fluid">
+    <form action="https://projets.applitec-automatisme.com/sav" method="POST" id="savForm">
+        <input type="hidden" name="_token" value="U4kzpcagkzMrYhm0MlQ4TVf1kqDJdidXf98TEtbZ" autocomplete="off">
+        <div class="row">
+            
+            <div class="col-lg-8">
+
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                        <i class="fas fa-user me-2"></i>
+                        <strong>Contact</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 position-relative">
+                            <label for="contact_search" class="form-label">Rechercher un contact existant</label>
+                            <div class="position-relative">
+                                <input type="text" id="contact_search" class="form-control" placeholder="Tapez un nom, un email ou un téléphone...">
+                                <div id="contact_results" class="list-group shadow position-absolute start-0 end-0" style="z-index: 1000; display:none; max-height: 320px; overflow: auto;"></div>
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createContactModal">
+                                    <i class="fas fa-user-plus me-1"></i> Ajouter un contact
+                                </button>
+                            </div>
+                            <input type="hidden" name="contact_id" id="contact_id">
+                        </div>
+
+                        
+                        <div id="selected_contact_card" class="card border-0" style="display:none;">
+                            <div class="card-body bg-light rounded">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-bold" id="sel_contact_name"></div>
+                                        <div class="small text-muted">
+                                            <span id="sel_contact_email"></span>
+                                            <span class="ms-2" id="sel_contact_phone"></span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="small text-muted mb-1">Projets liés :</div>
+                                            <div id="sel_contact_projects" class="d-flex flex-wrap gap-2"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btn_reset_contact">
+                                        <i class="fas fa-times me-1"></i> Changer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Informations de l'appelant</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom complet *</label>
+                                <input type="text" class="form-control" name="caller_name" id="caller_name" required readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" name="caller_phone" id="caller_phone" readonly>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="caller_email" id="caller_email" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white d-flex align-items-center">
+                        <i class="fas fa-building me-2"></i>
+                        <strong>Client & Projet</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            
+                            <div class="col-md-6">
+                                <label for="client_id_visual" class="form-label">Client *</label>
+                                <select id="client_id_visual" class="form-select">
+                                    <option value="">-- Sélectionnez un client --</option>
+                                                                            <option value="156" >
+                                            ACOFROID
+                                        </option>
+                                                                            <option value="199" >
+                                            AD FROID
+                                        </option>
+                                                                            <option value="218" >
+                                            AGROFROID
+                                        </option>
+                                                                            <option value="2" >
+                                            AIR FROID
+                                        </option>
+                                                                            <option value="160" >
+                                            ALPES REFRIGERATION
+                                        </option>
+                                                                            <option value="109" >
+                                            ALPHA NUTRITION
+                                        </option>
+                                                                            <option value="24" >
+                                            APPLI-TEC
+                                        </option>
+                                                                            <option value="217" >
+                                            APPLICATIONS FROID
+                                        </option>
+                                                                            <option value="225" >
+                                            APRR
+                                        </option>
+                                                                            <option value="4" >
+                                            ARCTIC REFREGERATION
+                                        </option>
+                                                                            <option value="183" >
+                                            ARCTIC REFRIGERATION
+                                        </option>
+                                                                            <option value="22" >
+                                            AXIMA REFRIGERATION
+                                        </option>
+                                                                            <option value="159" >
+                                            AXIMA REFRIGERATION 31
+                                        </option>
+                                                                            <option value="179" >
+                                            AXIMA REFRIGERATION 37
+                                        </option>
+                                                                            <option value="111" >
+                                            AXIMA REFRIGERATION 42
+                                        </option>
+                                                                            <option value="115" >
+                                            AXIMA REFRIGERATION 69
+                                        </option>
+                                                                            <option value="181" >
+                                            AXIMA REFRIGERATION 94
+                                        </option>
+                                                                            <option value="227" >
+                                            AXIMA REFRIGERATION AGENCE MARMANDE
+                                        </option>
+                                                                            <option value="198" >
+                                            AXIMA REFRIGERATION AUBENAS
+                                        </option>
+                                                                            <option value="146" >
+                                            AXIMA REFRIGERATION DIJON
+                                        </option>
+                                                                            <option value="220" >
+                                            AXIMA REFRIGERATION PERIGEUX
+                                        </option>
+                                                                            <option value="185" >
+                                            B.P.2.E.
+                                        </option>
+                                                                            <option value="118" >
+                                            BABOLAT
+                                        </option>
+                                                                            <option value="166" >
+                                            BERTRAND FROID
+                                        </option>
+                                                                            <option value="125" >
+                                            BLAISE FRERES
+                                        </option>
+                                                                            <option value="221" >
+                                            BOOST&#039;AIR REFRIGERATION
+                                        </option>
+                                                                            <option value="113" >
+                                            C.E.L
+                                        </option>
+                                                                            <option value="18" >
+                                            C2R
+                                        </option>
+                                                                            <option value="28" >
+                                            CELSIUS PRO
+                                        </option>
+                                                                            <option value="138" >
+                                            CENTRAL REFRIGERATION
+                                        </option>
+                                                                            <option value="188" >
+                                            CETIM
+                                        </option>
+                                                                            <option value="196" >
+                                            CHASSAING TECHNOLOGIE
+                                        </option>
+                                                                            <option value="5" >
+                                            CLAUGER
+                                        </option>
+                                                                            <option value="177" >
+                                            CLAUGER LANGUEDOC-ROUSIILLON
+                                        </option>
+                                                                            <option value="144" >
+                                            CLIMA FROID AQUITAINE
+                                        </option>
+                                                                            <option value="187" >
+                                            CLIMA FROID ROUSSILLON
+                                        </option>
+                                                                            <option value="20" >
+                                            CLIMO CONFORT
+                                        </option>
+                                                                            <option value="223" >
+                                            CLIMOCONFORT
+                                        </option>
+                                                                            <option value="210" >
+                                            CMFROID
+                                        </option>
+                                                                            <option value="16" >
+                                            COCEFROID
+                                        </option>
+                                                                            <option value="205" >
+                                            CONCEPT FROID ENERGIES
+                                        </option>
+                                                                            <option value="208" >
+                                            CTC GROUPE
+                                        </option>
+                                                                            <option value="206" >
+                                            DALKIA 15 AURILLAC
+                                        </option>
+                                                                            <option value="211" >
+                                            DALKIA 29 GUIPAVAS
+                                        </option>
+                                                                            <option value="200" >
+                                            DALKIA AGENCE CLERMONT FERRAND
+                                        </option>
+                                                                            <option value="153" >
+                                            DALKIA FROID SOLUTION 43
+                                        </option>
+                                                                            <option value="158" >
+                                            DALKIA FROID SOLUTION 48
+                                        </option>
+                                                                            <option value="180" >
+                                            DALKIA FROID SOLUTION BEZIERS
+                                        </option>
+                                                                            <option value="184" >
+                                            DALKIA FROID SOLUTION BRIGNOLES
+                                        </option>
+                                                                            <option value="136" >
+                                            DALKIA FROID SOLUTION LYON
+                                        </option>
+                                                                            <option value="226" >
+                                            DALKIA FROID SOLUTION THAON
+                                        </option>
+                                                                            <option value="215" >
+                                            DALKIA FROID SOLUTIONS 15
+                                        </option>
+                                                                            <option value="151" >
+                                            DALKIA FROID SOLUTIONS 84
+                                        </option>
+                                                                            <option value="10" >
+                                            DALKIA17
+                                        </option>
+                                                                            <option value="1" >
+                                            DALKIA43
+                                        </option>
+                                                                            <option value="165" >
+                                            DEA Agglo-le-Puy-en-Velay
+                                        </option>
+                                                                            <option value="219" >
+                                            DELTA FROID
+                                        </option>
+                                                                            <option value="161" >
+                                            DELTAFROID
+                                        </option>
+                                                                            <option value="176" >
+                                            E-THERMIC
+                                        </option>
+                                                                            <option value="11" >
+                                            ENERGIE FROID PACA
+                                        </option>
+                                                                            <option value="201" >
+                                            EO2S
+                                        </option>
+                                                                            <option value="140" >
+                                            ETS CHASSERIAU
+                                        </option>
+                                                                            <option value="19" >
+                                            F2C EQUIPEMENT
+                                        </option>
+                                                                            <option value="141" >
+                                            FABBRI FROID
+                                        </option>
+                                                                            <option value="214" >
+                                            FCCE Ets BOUSCASSE SAS
+                                        </option>
+                                                                            <option value="3" >
+                                            FCT
+                                        </option>
+                                                                            <option value="7" >
+                                            FLASH ENERGY
+                                        </option>
+                                                                            <option value="112" >
+                                            FRANCOIS BRUN
+                                        </option>
+                                                                            <option value="194" >
+                                            FRIGORIFIQUES MACHINES DU CENTRE
+                                        </option>
+                                                                            <option value="203" >
+                                            FROID CLIMATISATION 17
+                                        </option>
+                                                                            <option value="228" >
+                                            FROID ET MACHINES DU HAUT QUERCY
+                                        </option>
+                                                                            <option value="27" >
+                                            FROID FOREZIEN
+                                        </option>
+                                                                            <option value="17" >
+                                            FROID GUYADER
+                                        </option>
+                                                                            <option value="26" >
+                                            FROID PROVENCAL
+                                        </option>
+                                                                            <option value="195" >
+                                            FROID SEICAR SUISSE
+                                        </option>
+                                                                            <option value="171" >
+                                            G. Froid Concept
+                                        </option>
+                                                                            <option value="172" >
+                                            G. Froid Concept
+                                        </option>
+                                                                            <option value="178" >
+                                            GAILLOT
+                                        </option>
+                                                                            <option value="192" >
+                                            GAP FROID
+                                        </option>
+                                                                            <option value="139" >
+                                            GF CONCEPT
+                                        </option>
+                                                                            <option value="216" >
+                                            GREIF (IPACKCHEM)
+                                        </option>
+                                                                            <option value="145" >
+                                            GROUPE BENARD
+                                        </option>
+                                                                            <option value="209" >
+                                            GUERIN PLASTIQUES
+                                        </option>
+                                                                            <option value="107" >
+                                            HERVE THERMIQUE ST ETIENNE
+                                        </option>
+                                                                            <option value="213" >
+                                            INFOFIL
+                                        </option>
+                                                                            <option value="143" >
+                                            INTEREP
+                                        </option>
+                                                                            <option value="224" >
+                                            ISONAT
+                                        </option>
+                                                                            <option value="110" >
+                                            JANISSET
+                                        </option>
+                                                                            <option value="148" >
+                                            JOSEPH
+                                        </option>
+                                                                            <option value="164" >
+                                            Joseph (SA-Ets)
+                                        </option>
+                                                                            <option value="15" >
+                                            LMTP
+                                        </option>
+                                                                            <option value="168" >
+                                            M.A.F.
+                                        </option>
+                                                                            <option value="14" >
+                                            MAF
+                                        </option>
+                                                                            <option value="120" >
+                                            MAIRIE DE SAUGUES
+                                        </option>
+                                                                            <option value="119" >
+                                            MAIRIE YSSINGEAUX
+                                        </option>
+                                                                            <option value="193" >
+                                            MARQUE
+                                        </option>
+                                                                            <option value="12" >
+                                            MATAL
+                                        </option>
+                                                                            <option value="134" >
+                                            MATAL S.A.S
+                                        </option>
+                                                                            <option value="170" >
+                                            MATAL SAS DECINES
+                                        </option>
+                                                                            <option value="169" >
+                                            MATAL SAS Les Sorinières
+                                        </option>
+                                                                            <option value="135" >
+                                            MCI Bordeaux
+                                        </option>
+                                                                            <option value="152" >
+                                            MCI SUD EST
+                                        </option>
+                                                                            <option value="204" >
+                                            MCI SUD Sud
+                                        </option>
+                                                                            <option value="154" >
+                                            MCI TOULOUSE
+                                        </option>
+                                                                            <option value="212" >
+                                            MCSI
+                                        </option>
+                                                                            <option value="108" >
+                                            Modern Process Equipment Corporation
+                                        </option>
+                                                                            <option value="8" >
+                                            MONDIAL FRIGO
+                                        </option>
+                                                                            <option value="114" >
+                                            MPE Europe
+                                        </option>
+                                                                            <option value="126" >
+                                            MTS
+                                        </option>
+                                                                            <option value="191" >
+                                            OXFORM
+                                        </option>
+                                                                            <option value="182" >
+                                            PERIGORD FROID
+                                        </option>
+                                                                            <option value="124" >
+                                            PHP PHILIPPE
+                                        </option>
+                                                                            <option value="173" >
+                                            PIDELEC
+                                        </option>
+                                                                            <option value="174" >
+                                            PIDELEC
+                                        </option>
+                                                                            <option value="207" >
+                                            POLAIR SYSTEME
+                                        </option>
+                                                                            <option value="149" >
+                                            PR PREHENSION
+                                        </option>
+                                                                            <option value="202" >
+                                            PROVENCE FROID INDUSTRIE
+                                        </option>
+                                                                            <option value="25" >
+                                            PYRENEES FROID
+                                        </option>
+                                                                            <option value="157" >
+                                            Quercy Refrigeration
+                                        </option>
+                                                                            <option value="132" >
+                                            R.E.S.
+                                        </option>
+                                                                            <option value="123" >
+                                            REGIE DE L&#039;EAU-CCMVR
+                                        </option>
+                                                                            <option value="197" >
+                                            REYNET FROID
+                                        </option>
+                                                                            <option value="29" >
+                                            SAFRICLIM
+                                        </option>
+                                                                            <option value="130" >
+                                            SALAISONS DU LIGNON
+                                        </option>
+                                                                            <option value="128" >
+                                            Santerne Centre Est Energies
+                                        </option>
+                                                                            <option value="190" >
+                                            SAS FLASH ENERGY
+                                        </option>
+                                                                            <option value="116" >
+                                            SATAB RUBANS
+                                        </option>
+                                                                            <option value="163" >
+                                            SCG
+                                        </option>
+                                                                            <option value="142" >
+                                            SEREALYS
+                                        </option>
+                                                                            <option value="122" >
+                                            SITINAO
+                                        </option>
+                                                                            <option value="21" >
+                                            SNEF
+                                        </option>
+                                                                            <option value="23" >
+                                            SNEF 13
+                                        </option>
+                                                                            <option value="150" >
+                                            SOFI RHONE-ALPES
+                                        </option>
+                                                                            <option value="133" >
+                                            SOFI SUD INSTALLATIONS
+                                        </option>
+                                                                            <option value="131" >
+                                            SOFI SUD SAS
+                                        </option>
+                                                                            <option value="6" >
+                                            SOFIRA
+                                        </option>
+                                                                            <option value="9" >
+                                            SOFISUD
+                                        </option>
+                                                                            <option value="175" >
+                                            SOLANREF
+                                        </option>
+                                                                            <option value="186" >
+                                            SOLTOP ENERGIE
+                                        </option>
+                                                                            <option value="189" >
+                                            SOLYCLIM
+                                        </option>
+                                                                            <option value="127" >
+                                            SOUCHON D&#039;AUVERGNE
+                                        </option>
+                                                                            <option value="155" >
+                                            STAF
+                                        </option>
+                                                                            <option value="162" >
+                                            SUD CLIMAT
+                                        </option>
+                                                                            <option value="167" >
+                                            SUD OUEST REFRIGERATION
+                                        </option>
+                                                                            <option value="222" >
+                                            Syndicat Intercommunal Eau et Assainissement de La Faye
+                                        </option>
+                                                                            <option value="121" >
+                                            Tannerie ANNONAY
+                                        </option>
+                                                                            <option value="137" >
+                                            TECHNI-FROID
+                                        </option>
+                                                                            <option value="13" >
+                                            TECHNOFROID
+                                        </option>
+                                                                            <option value="147" >
+                                            THUASNE
+                                        </option>
+                                                                            <option value="117" >
+                                            VAN BEEST
+                                        </option>
+                                                                    </select>
+                                <input type="hidden" name="client_id" id="client_id" value="">
+                                <div class="form-text" id="client_hint" style="display:none;">Client fixé automatiquement depuis le contact sélectionné</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="project_id" class="form-label">Projet (optionnel)</label>
+                                <select name="project_id" id="project_id" class="form-select">
+                                    <option value="">Aucun projet</option>
+                                </select>
+                                <div class="form-text">Laissez “Aucun projet” pour un SAV client générique.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Description du problème</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Sujet *</label>
+                            <input type="text" name="subject" class="form-control" required>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">Description détaillée *</label>
+                            <textarea name="description" class="form-control" rows="6" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="d-flex justify-content-between mb-5">
+                    <a href="https://projets.applitec-automatisme.com/sav" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Retour
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Créer le SAV
+                    </button>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-4">
+
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white d-flex align-items-center">
+                        <i class="fas fa-cogs me-2"></i>
+                        <strong>Paramètres</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Priorité *</label>
+                            <select name="priority" class="form-select" required>
+                                <option value="faible">Faible</option>
+                                <option value="normale" selected>Normale</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Assigner à</label>
+                            <select name="assigned_to" class="form-select">
+                                <option value="">Moi (par défaut)</option>
+                                                                    <option value="8">Admin Christophe (admin@appli-tec.fr)</option>
+                                                                    <option value="7">Alex LESTRA (alex.lestra@appli-tec.fr)</option>
+                                                                    <option value="12">Anthony FOURNEL (anthony.fournel@appli-tec.fr)</option>
+                                                                    <option value="25">Antoine BERNARD (antoine.bernard@appli-tec.fr)</option>
+                                                                    <option value="27">Aurélie ADMIN (aurelie.adm@appli-tec.fr)</option>
+                                                                    <option value="21">Aurélie GEAY-GUILLAUMOND (aurelie.jullien@appli-tec.fr)</option>
+                                                                    <option value="15">Benjamin FRAYSSE (benjamin.fraysse@appli-tec.fr)</option>
+                                                                    <option value="4">Bernard SOULIER (bernard.soulier@appli-tec.fr)</option>
+                                                                    <option value="1">Christophe MOREAU (christophe.moreau@appli-tec.fr)</option>
+                                                                    <option value="22">Cyril PIECHOCKI (cyril.piechocki@appli-tec.fr)</option>
+                                                                    <option value="13">David LICHERON (david.licheron@appli-tec.fr)</option>
+                                                                    <option value="19">Dylan PARREIRA (dylan.parreira@appli-tec.fr)</option>
+                                                                    <option value="11">Fabien JOUBERT (fabien.joubert@appli-tec.fr)</option>
+                                                                    <option value="26">Fabien MONTAGNE (fabien.montagne@yahoo.fr)</option>
+                                                                    <option value="20">Gilles BOUTIN (gilles.boutin@appli-tec.fr)</option>
+                                                                    <option value="16">Jérémy PELLETIER (jeremy.pelletier@appli-tec.fr)</option>
+                                                                    <option value="14">Léo DANTONY (leo.dantony@appli-tec.fr)</option>
+                                                                    <option value="17">Ludovic BRUN (ludovic.brun@appli-tec.fr)</option>
+                                                                    <option value="6">Marlène BLONDET (marlene.blondet@appli-tec.fr)</option>
+                                                                    <option value="23">Maxime PLO (maxime.plo@appli-tec.fr)</option>
+                                                                    <option value="24">Nicolas BRUYERE (nicolas.bruyere@appli-tec.fr)</option>
+                                                                    <option value="3">Olivier MILLET (olivier.millet@appli-tec.fr)</option>
+                                                                    <option value="29">OlivierChaff (olivier.millet@appli-tecvc.fr)</option>
+                                                                    <option value="9">Pierre POINARD (pierre.poinard@appli-tec.fr)</option>
+                                                                    <option value="28">Riwan MATELLA (riwan.matella@appli-tec.fr)</option>
+                                                                    <option value="30">Sarah DEMORE-BELLIOT (sarah.demore-belliot@appli-tec.fr)</option>
+                                                                    <option value="18">Tom TERRIS (tom.terris@appli-tec.fr)</option>
+                                                                    <option value="10">Yohan DREVET (yohan.drevet@appli-tec.fr)</option>
+                                                                    <option value="5">Yohan PEREZ (yohan.perez@appli-tec.fr)</option>
+                                                            </select>
+                            <div class="form-text">Si vide, le SAV sera assigné à vous-même.</div>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">Date limite</label>
+                            <input type="datetime-local" name="due_date" class="form-control" min="2026-02-05T08:14">
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <i class="fas fa-life-ring me-2"></i>
+                        <strong>Aide</strong>
+                    </div>
+                    <div class="card-body">
+                        <ul class="mb-0 small">
+                            <li>Commence par sélectionner un <strong>contact</strong> via la recherche.</li>
+                            <li>Le <strong>client</strong> et les <strong>projets liés</strong> s’adaptent automatiquement.</li>
+                            <li>Tu peux créer un <strong>contact à la volée</strong> si besoin.</li>
+                            <li>Choisir <em>Aucun projet</em> crée un SAV <strong>client générique</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="modal fade" id="createContactModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="createContactForm">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>Créer un contact</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+          <input type="hidden" name="_token" value="U4kzpcagkzMrYhm0MlQ4TVf1kqDJdidXf98TEtbZ" autocomplete="off">          <div class="mb-3">
+              <label class="form-label">Nom complet *</label>
+              <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <label class="form-label">Téléphone</label>
+              <input type="text" name="phone" class="form-control">
+          </div>
+          <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control">
+          </div>
+          <div class="mb-3">
+              <label class="form-label">Rôle *</label>
+              <input type="text" name="role" class="form-control" placeholder="Ex : Responsable maintenance" required>
+          </div>
+
+          
+          <div class="mb-0">
+              <label class="form-label">Entreprise liée *</label>
+              <select name="client_id" id="modal_client_id" class="form-select" required>
+                  <option value="">-- Sélectionnez une entreprise --</option>
+                                        <option value="156">ACOFROID</option>
+                                        <option value="199">AD FROID</option>
+                                        <option value="218">AGROFROID</option>
+                                        <option value="2">AIR FROID</option>
+                                        <option value="160">ALPES REFRIGERATION</option>
+                                        <option value="109">ALPHA NUTRITION</option>
+                                        <option value="24">APPLI-TEC</option>
+                                        <option value="217">APPLICATIONS FROID</option>
+                                        <option value="225">APRR</option>
+                                        <option value="4">ARCTIC REFREGERATION</option>
+                                        <option value="183">ARCTIC REFRIGERATION</option>
+                                        <option value="22">AXIMA REFRIGERATION</option>
+                                        <option value="159">AXIMA REFRIGERATION 31</option>
+                                        <option value="179">AXIMA REFRIGERATION 37</option>
+                                        <option value="111">AXIMA REFRIGERATION 42</option>
+                                        <option value="115">AXIMA REFRIGERATION 69</option>
+                                        <option value="181">AXIMA REFRIGERATION 94</option>
+                                        <option value="227">AXIMA REFRIGERATION AGENCE MARMANDE</option>
+                                        <option value="198">AXIMA REFRIGERATION AUBENAS</option>
+                                        <option value="146">AXIMA REFRIGERATION DIJON</option>
+                                        <option value="220">AXIMA REFRIGERATION PERIGEUX</option>
+                                        <option value="185">B.P.2.E.</option>
+                                        <option value="118">BABOLAT</option>
+                                        <option value="166">BERTRAND FROID</option>
+                                        <option value="125">BLAISE FRERES</option>
+                                        <option value="221">BOOST&#039;AIR REFRIGERATION</option>
+                                        <option value="113">C.E.L</option>
+                                        <option value="18">C2R</option>
+                                        <option value="28">CELSIUS PRO</option>
+                                        <option value="138">CENTRAL REFRIGERATION</option>
+                                        <option value="188">CETIM</option>
+                                        <option value="196">CHASSAING TECHNOLOGIE</option>
+                                        <option value="5">CLAUGER</option>
+                                        <option value="177">CLAUGER LANGUEDOC-ROUSIILLON</option>
+                                        <option value="144">CLIMA FROID AQUITAINE</option>
+                                        <option value="187">CLIMA FROID ROUSSILLON</option>
+                                        <option value="20">CLIMO CONFORT</option>
+                                        <option value="223">CLIMOCONFORT</option>
+                                        <option value="210">CMFROID</option>
+                                        <option value="16">COCEFROID</option>
+                                        <option value="205">CONCEPT FROID ENERGIES</option>
+                                        <option value="208">CTC GROUPE</option>
+                                        <option value="206">DALKIA 15 AURILLAC</option>
+                                        <option value="211">DALKIA 29 GUIPAVAS</option>
+                                        <option value="200">DALKIA AGENCE CLERMONT FERRAND</option>
+                                        <option value="153">DALKIA FROID SOLUTION 43</option>
+                                        <option value="158">DALKIA FROID SOLUTION 48</option>
+                                        <option value="180">DALKIA FROID SOLUTION BEZIERS</option>
+                                        <option value="184">DALKIA FROID SOLUTION BRIGNOLES</option>
+                                        <option value="136">DALKIA FROID SOLUTION LYON</option>
+                                        <option value="226">DALKIA FROID SOLUTION THAON</option>
+                                        <option value="215">DALKIA FROID SOLUTIONS 15</option>
+                                        <option value="151">DALKIA FROID SOLUTIONS 84</option>
+                                        <option value="10">DALKIA17</option>
+                                        <option value="1">DALKIA43</option>
+                                        <option value="165">DEA Agglo-le-Puy-en-Velay</option>
+                                        <option value="219">DELTA FROID</option>
+                                        <option value="161">DELTAFROID</option>
+                                        <option value="176">E-THERMIC</option>
+                                        <option value="11">ENERGIE FROID PACA</option>
+                                        <option value="201">EO2S</option>
+                                        <option value="140">ETS CHASSERIAU</option>
+                                        <option value="19">F2C EQUIPEMENT</option>
+                                        <option value="141">FABBRI FROID</option>
+                                        <option value="214">FCCE Ets BOUSCASSE SAS</option>
+                                        <option value="3">FCT</option>
+                                        <option value="7">FLASH ENERGY</option>
+                                        <option value="112">FRANCOIS BRUN</option>
+                                        <option value="194">FRIGORIFIQUES MACHINES DU CENTRE</option>
+                                        <option value="203">FROID CLIMATISATION 17</option>
+                                        <option value="228">FROID ET MACHINES DU HAUT QUERCY</option>
+                                        <option value="27">FROID FOREZIEN</option>
+                                        <option value="17">FROID GUYADER</option>
+                                        <option value="26">FROID PROVENCAL</option>
+                                        <option value="195">FROID SEICAR SUISSE</option>
+                                        <option value="171">G. Froid Concept</option>
+                                        <option value="172">G. Froid Concept</option>
+                                        <option value="178">GAILLOT</option>
+                                        <option value="192">GAP FROID</option>
+                                        <option value="139">GF CONCEPT</option>
+                                        <option value="216">GREIF (IPACKCHEM)</option>
+                                        <option value="145">GROUPE BENARD</option>
+                                        <option value="209">GUERIN PLASTIQUES</option>
+                                        <option value="107">HERVE THERMIQUE ST ETIENNE</option>
+                                        <option value="213">INFOFIL</option>
+                                        <option value="143">INTEREP</option>
+                                        <option value="224">ISONAT</option>
+                                        <option value="110">JANISSET</option>
+                                        <option value="148">JOSEPH</option>
+                                        <option value="164">Joseph (SA-Ets)</option>
+                                        <option value="15">LMTP</option>
+                                        <option value="168">M.A.F.</option>
+                                        <option value="14">MAF</option>
+                                        <option value="120">MAIRIE DE SAUGUES</option>
+                                        <option value="119">MAIRIE YSSINGEAUX</option>
+                                        <option value="193">MARQUE</option>
+                                        <option value="12">MATAL</option>
+                                        <option value="134">MATAL S.A.S</option>
+                                        <option value="170">MATAL SAS DECINES</option>
+                                        <option value="169">MATAL SAS Les Sorinières</option>
+                                        <option value="135">MCI Bordeaux</option>
+                                        <option value="152">MCI SUD EST</option>
+                                        <option value="204">MCI SUD Sud</option>
+                                        <option value="154">MCI TOULOUSE</option>
+                                        <option value="212">MCSI</option>
+                                        <option value="108">Modern Process Equipment Corporation</option>
+                                        <option value="8">MONDIAL FRIGO</option>
+                                        <option value="114">MPE Europe</option>
+                                        <option value="126">MTS</option>
+                                        <option value="191">OXFORM</option>
+                                        <option value="182">PERIGORD FROID</option>
+                                        <option value="124">PHP PHILIPPE</option>
+                                        <option value="173">PIDELEC</option>
+                                        <option value="174">PIDELEC</option>
+                                        <option value="207">POLAIR SYSTEME</option>
+                                        <option value="149">PR PREHENSION</option>
+                                        <option value="202">PROVENCE FROID INDUSTRIE</option>
+                                        <option value="25">PYRENEES FROID</option>
+                                        <option value="157">Quercy Refrigeration</option>
+                                        <option value="132">R.E.S.</option>
+                                        <option value="123">REGIE DE L&#039;EAU-CCMVR</option>
+                                        <option value="197">REYNET FROID</option>
+                                        <option value="29">SAFRICLIM</option>
+                                        <option value="130">SALAISONS DU LIGNON</option>
+                                        <option value="128">Santerne Centre Est Energies</option>
+                                        <option value="190">SAS FLASH ENERGY</option>
+                                        <option value="116">SATAB RUBANS</option>
+                                        <option value="163">SCG</option>
+                                        <option value="142">SEREALYS</option>
+                                        <option value="122">SITINAO</option>
+                                        <option value="21">SNEF</option>
+                                        <option value="23">SNEF 13</option>
+                                        <option value="150">SOFI RHONE-ALPES</option>
+                                        <option value="133">SOFI SUD INSTALLATIONS</option>
+                                        <option value="131">SOFI SUD SAS</option>
+                                        <option value="6">SOFIRA</option>
+                                        <option value="9">SOFISUD</option>
+                                        <option value="175">SOLANREF</option>
+                                        <option value="186">SOLTOP ENERGIE</option>
+                                        <option value="189">SOLYCLIM</option>
+                                        <option value="127">SOUCHON D&#039;AUVERGNE</option>
+                                        <option value="155">STAF</option>
+                                        <option value="162">SUD CLIMAT</option>
+                                        <option value="167">SUD OUEST REFRIGERATION</option>
+                                        <option value="222">Syndicat Intercommunal Eau et Assainissement de La Faye</option>
+                                        <option value="121">Tannerie ANNONAY</option>
+                                        <option value="137">TECHNI-FROID</option>
+                                        <option value="13">TECHNOFROID</option>
+                                        <option value="147">THUASNE</option>
+                                        <option value="117">VAN BEEST</option>
+                                </select>
+              <input type="hidden" name="company" id="modal_company">
+              <div class="form-text">Si elle est déjà choisie dans le formulaire principal, elle sera pré-remplie ici.</div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Créer le contact</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Elements
+    const contactSearch       = document.getElementById('contact_search');
+    const results             = document.getElementById('contact_results');
+    const contactIdInput      = document.getElementById('contact_id');
+
+    const selCard             = document.getElementById('selected_contact_card');
+    const selName             = document.getElementById('sel_contact_name');
+    const selEmail            = document.getElementById('sel_contact_email');
+    const selPhone            = document.getElementById('sel_contact_phone');
+    const selProjectsWrap     = document.getElementById('sel_contact_projects');
+    const btnResetContact     = document.getElementById('btn_reset_contact');
+
+    const clientSelectVisual  = document.getElementById('client_id_visual'); // le visuel
+    const clientInputHidden   = document.getElementById('client_id');        // réellement posté
+    const clientHint          = document.getElementById('client_hint');
+    const projectSelect       = document.getElementById('project_id');
+
+    const modalClientHidden   = document.getElementById('modal_client_id');
+    const createContactForm   = document.getElementById('createContactForm');
+
+    // Sync hidden client id with visual select (quand l'utilisateur change manuellement)
+    clientSelectVisual.addEventListener('change', () => {
+        clientInputHidden.value = clientSelectVisual.value || '';
+        // si client change manuellement, recharger tous les projets du client
+        loadProjectsByClient(clientInputHidden.value);
+        // et libérer le "lock" visuel
+        unlockClient();
+    });
+
+    // Pré-remplissage si ?client_id=...
+    if (clientInputHidden.value) {
+        clientSelectVisual.value = clientInputHidden.value;
+        loadProjectsByClient(clientInputHidden.value);
+    }
+
+    // Place la valeur actuelle de client dans la modale "création contact"
+    modalClientHidden.value = clientInputHidden.value;
+
+    // -----------------------------
+    // 🔍 Recherche contact (AJAX)
+    // -----------------------------
+    let searchTimer = null;
+    contactSearch.addEventListener('input', function () {
+        const q = this.value.trim();
+        results.style.display = 'none';
+        results.innerHTML = '';
+
+        if (q.length < 2) return;
+
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            const url = `https://projets.applitec-automatisme.com/contacts/search?q=${encodeURIComponent(q)}&client_id=${encodeURIComponent(clientInputHidden.value || '')}`;
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (!Array.isArray(data) || data.length === 0) return;
+                    results.innerHTML = '';
+                    data.forEach(item => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'list-group-item list-group-item-action';
+                        
+btn.innerHTML = `
+    <div class="fw-semibold d-flex justify-content-between align-items-center">
+        <span>${item.name}</span>
+        ${Array.isArray(item.projects) && item.projects.length > 0 
+            ? `<span class="badge bg-secondary">${item.projects.length} projet${item.projects.length > 1 ? 's' : ''}</span>` 
+            : ''}
+    </div>
+    <div class="small text-muted">
+        ${item.role ? item.role + ' • ' : ''}${item.client_name ?? 'Non lié'}
+    </div>
+    <div class="small">
+        ${item.email ? `<i class="fas fa-envelope me-1"></i>${item.email}` : ''}
+        ${item.phone ? `<i class="fas fa-phone ms-2 me-1"></i>${item.phone}` : ''}
+    </div>
+`;
+
+                        btn.addEventListener('click', () => selectContact(item));
+                        results.appendChild(btn);
+                    });
+                    results.style.display = 'block';
+                })
+                .catch(console.error);
+        }, 200);
+    });
+
+    // Fermer la liste si clic ailleurs
+    document.addEventListener('click', (e) => {
+        if (!results.contains(e.target) && e.target !== contactSearch) {
+            results.style.display = 'none';
+        }
+    });
+
+    // -----------------------------
+    // ✅ Sélection d’un contact
+    // -----------------------------
+    function selectContact(item) {
+        // Remplir hidden id
+        contactIdInput.value = item.id;
+
+        // Remplir appelant (readonly)
+        document.getElementById('caller_name').value  = item.name || '';
+        document.getElementById('caller_phone').value = item.phone || '';
+        document.getElementById('caller_email').value = item.email || '';
+
+        // Carte résumé contact
+        selName.textContent  = item.name || '';
+        selEmail.textContent = item.email || '';
+        selPhone.textContent = item.phone || '';
+        if (item.client_name) {
+    const clientInfo = document.createElement('div');
+    clientInfo.className = 'small mt-2';
+    clientInfo.innerHTML = `<strong>Client :</strong> ${item.client_name}`;
+    selProjectsWrap.parentNode.insertBefore(clientInfo, selProjectsWrap);
+}
+
+
+        // Projets du contact => alimenter dropdown projets (avec "Aucun projet")
+        projectSelect.innerHTML = `<option value="">Aucun projet</option>`;
+        selProjectsWrap.innerHTML = '';
+        if (Array.isArray(item.projects)) {
+            item.projects.forEach(p => {
+                // Badge visuel
+                const b = document.createElement('span');
+                b.className = 'badge bg-secondary';
+                b.textContent = `${p.reference ?? ''}${p.reference ? ' – ' : ''}${p.name}`;
+                selProjectsWrap.appendChild(b);
+                // Option du select
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.reference ?? ''}${p.reference ? ' – ' : ''}${p.name}`;
+                projectSelect.appendChild(opt);
+            });
+        }
+
+        // Client : si item.client_id connu → verrouiller visuellement
+// ✅ Même si client_id est null, on tente de deviner via projets liés
+if (item.client_id) {
+    clientSelectVisual.value = item.client_id;
+    clientInputHidden.value  = item.client_id;
+    lockClient();
+} else if (Array.isArray(item.projects) && item.projects.length > 0) {
+    // s'il y a des projets liés, on prend le client du premier projet
+    const firstProject = item.projects[0];
+    if (firstProject.client_id) {
+        clientSelectVisual.value = firstProject.client_id;
+        clientInputHidden.value  = firstProject.client_id;
+        lockClient();
+    } else {
+        unlockClient();
+    }
+}
+else {
+            // Si le contact n'a pas de client, on ne verrouille pas
+            unlockClient();
+        }
+
+        // Fermer résultats + afficher carte
+        results.style.display = 'none';
+        selCard.style.display = 'block';
+
+        // maj client_id dans la modale création contact (au cas où on créerait ensuite)
+        modalClientHidden.value = clientInputHidden.value || '';
+    }
+
+    // Réinitialiser la sélection
+    btnResetContact.addEventListener('click', () => {
+        contactIdInput.value = '';
+        contactSearch.value  = '';
+        selCard.style.display = 'none';
+
+        // Vider appelant readonly
+        document.getElementById('caller_name').value  = '';
+        document.getElementById('caller_phone').value = '';
+        document.getElementById('caller_email').value = '';
+
+        // Déverrouiller client (l’utilisateur peut re-choisir)
+        unlockClient();
+
+        // Projets -> par défaut si client présent, charger ceux du client, sinon vider
+        if (clientInputHidden.value) {
+            loadProjectsByClient(clientInputHidden.value);
+        } else {
+            projectSelect.innerHTML = `<option value="">Aucun projet</option>`;
+        }
+    });
+
+    function lockClient() {
+        clientSelectVisual.classList.add('disabled');
+        clientSelectVisual.setAttribute('disabled', 'disabled'); // le select ne sera pas soumis
+        clientHint.style.display = 'block';
+    }
+    function unlockClient() {
+        clientSelectVisual.classList.remove('disabled');
+        clientSelectVisual.removeAttribute('disabled');
+        clientHint.style.display = 'none';
+    }
+
+    // -----------------------------
+    // 📁 Projets par client (fallback / sélection manuelle de client)
+    // -----------------------------
+    function loadProjectsByClient(clientId) {
+        projectSelect.innerHTML = `<option value="">Aucun projet</option>`;
+        if (!clientId) return;
+        fetch(`https://projets.applitec-automatisme.com/sav/projects-by-client?client_id=${encodeURIComponent(clientId)}`)
+            .then(r => r.json())
+            .then(list => {
+                list.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = `${p.reference ?? ''}${p.reference ? ' – ' : ''}${p.name}`;
+                    projectSelect.appendChild(opt);
+                });
+            })
+            .catch(console.error);
+    }
+
+    // -----------------------------
+    // ➕ Création rapide de contact (modale)
+    // -----------------------------
+    document.getElementById('createContactModal').addEventListener('show.bs.modal', () => {
+        // Sync le client courant vers la modale
+        modalClientHidden.value = clientInputHidden.value || '';
+
+    // ✅ Met aussi à jour company automatiquement
+    const selectedOption = modalClientHidden.options[modalClientHidden.selectedIndex];
+    document.getElementById('modal_company').value = selectedOption ? selectedOption.text : '';
+});
+
+// ✅ Mettre à jour company si l’utilisateur change d’entreprise dans la modale
+document.getElementById('modal_client_id').addEventListener('change', function () {
+    const selectedOption = this.options[this.selectedIndex];
+    document.getElementById('modal_company').value = selectedOption ? selectedOption.text : '';
+});
+
+    createContactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const payload = Object.fromEntries(new FormData(createContactForm).entries());
+        fetch(`https://projets.applitec-automatisme.com/contacts`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': 'U4kzpcagkzMrYhm0MlQ4TVf1kqDJdidXf98TEtbZ',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.error || 'Erreur création contact');
+
+            // Sélectionner automatiquement le contact nouvellement créé
+            const created = {
+                id: data.contact.id,
+                name: data.contact.name,
+                phone: data.contact.phone,
+                email: data.contact.email,
+                role: data.contact.role,
+                client_id: data.contact.client_id || null,
+                projects: [] // nouvellement créé, pas encore de projets
+            };
+            selectContact(created);
+
+            // Fermer la modale + reset
+            const modalEl = document.getElementById('createContactModal');
+            const modal   = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+            createContactForm.reset();
+        })
+        .catch(err => alert('Erreur: ' + err.message));
+    });
+
+    // -----------------------------
+    // Soumission : s’assurer que la valeur client_id est postée
+    // (le select visuel est disabled quand “lock”)
+    // -----------------------------
+    document.getElementById('savForm').addEventListener('submit', () => {
+        // synchroniser au cas où (si pas verrouillé)
+        if (!clientInputHidden.value) {
+            clientInputHidden.value = clientSelectVisual.value || '';
+        }
+    });
+});
+</script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+</body>
+
+</html>
