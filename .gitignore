@@ -1,0 +1,14 @@
+# Dépendances Node.js (à réinstaller avec: npm install)
+node_modules/
+
+# Fichiers de cache générés automatiquement
+nas_cache.json
+projets_tasks_cache.json
+projets_web_cache.json
+
+# Configuration locale (chemins spécifiques à chaque PC)
+config.json
+
+# Logs
+*.log
+plot.log
