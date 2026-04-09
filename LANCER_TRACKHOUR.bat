@@ -10,3 +10,8 @@ timeout /t 1 /nobreak >nul
 
 REM Lancer le serveur
 node server.js
+if %errorlevel% neq 0 (
+    echo.
+    echo === ERREUR : le serveur a plante ===
+    pause
+)
